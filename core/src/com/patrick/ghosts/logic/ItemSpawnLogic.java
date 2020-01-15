@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.patrick.ghosts.entities.Lamp;
 import com.patrick.ghosts.entities.Oil;
 
 public class ItemSpawnLogic {
@@ -40,6 +41,14 @@ public class ItemSpawnLogic {
             }
         }
         this.oils = rtrn;
+    }
+
+    public Array<Lamp> getLights() {
+        Array<Lamp> lights = new Array();
+        for(Oil oil: oils) {
+            lights.add(oil.getLamp());
+        }
+        return lights;
     }
 
     public Array<Oil> getOils() {

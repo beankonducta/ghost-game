@@ -13,6 +13,8 @@ public class Oil {
     private float y;
     private boolean used;
 
+    private Lamp lamp;
+
     public Oil(float amount, float x, float y) {
         this.sprite  = new Sprite(new Texture(Gdx.files.internal("oil.png")));
         this.sprite.setX(x);
@@ -21,6 +23,7 @@ public class Oil {
         this.x = x;
         this.y = y;
         this.used = false;
+        this.lamp = new Lamp(-1, 30f, 0f, x + (sprite.getWidth() / 2), y + (sprite.getHeight() / 2));
     }
 
     public void move(Vector2 position) {
@@ -28,9 +31,16 @@ public class Oil {
         this.y = position.y;
         this.sprite.setX(position.x);
         this.sprite.setY(position.y);
+        this.lamp.setX(position.x + (sprite.getWidth() / 2));
+        this.lamp.setY(position.y + (sprite.getHeight() / 2));
+    }
+
+    public Lamp getLamp() {
+        return lamp;
     }
 
     public boolean draw() {
+        if(this.used && this.lamp.isActive()) this.lamp.setActive(false);
         return !this.used;
     }
 

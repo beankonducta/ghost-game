@@ -8,6 +8,7 @@ public class Lamp {
     private boolean useOil;
     private boolean moveWithWorld;
     private boolean flicker;
+    private boolean active;
     private float usageSpeed;
     private float maxRadius;
     private float radius;
@@ -16,13 +17,14 @@ public class Lamp {
     private float y;
 
     public Lamp(float oil, float maxRadius, float usageSpeed, float x, float y) {
+        this.active = true;
         this.oil = oil;
         this.maxRadius = maxRadius;
         this.radius = maxRadius;
         this.usageSpeed = usageSpeed;
         this.maxOil = oil;
-        this.useOil = true;
-        this.flicker = true;
+        this.useOil = oil != -1;
+        this.flicker = oil != -1;
         this.x = x;
         this.y = y;
     }
@@ -107,6 +109,10 @@ public class Lamp {
     public void setUseOil(boolean useOil) {
         this.useOil = useOil;
     }
+
+    public boolean isActive() { return active; };
+
+    public void setActive(boolean active) { this.active = active; };
 
     public float getMaxRadius() {
         return maxRadius;

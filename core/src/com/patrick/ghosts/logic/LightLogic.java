@@ -18,7 +18,8 @@ public class LightLogic {
     private World world;
     private RayHandler rayHandler;
     private Array<Light> playerLights;
-
+    private Array<Light> itemLights;
+    private Array<Light> worldLights;
     private Color standard;
     private Color flickerLow;
     private Color flickerHigh;
@@ -35,8 +36,6 @@ public class LightLogic {
         flickerLow = new Color(1,1,1,.78f);
         flickerMid = new Color(1,1,1,.87f);
         flickerHigh = new Color(1,1,1,.94f);
-
-        playerLights = new Array<Light>();
     }
 
     private Color getRandomFlicker() {
@@ -44,16 +43,22 @@ public class LightLogic {
         return colors[MathUtils.random(colors.length-1)];
     }
 
-    public void renderLights(OrthographicCamera camera, Lamp lamp) {
+    public void renderLights(OrthographicCamera camera, Lamp lamp, ItemSpawnLogic itemSpawnLogic) {
         world = new World(new Vector2(0,0),false);
         rayHandler = new RayHandler(world);
         rayHandler.setCombinedMatrix(camera.combined);
         RayHandler.useDiffuseLight(true);
+        playerLights = new Array<Light>();
+        worldLights = new Array<Light>();
+        itemLights = new Array<Light>();
         for(int i = 0; i < 5; i++)
         playerLights.add(new PointLight(rayHandler,1000, Color.WHITE,lamp.getRadius(), lamp.getX(), lamp.getY()));
+        for(Lamp l : itemSpawnLogic.getLights()) {
+            itemLights.add(new PointLight(rayHandler, 1000, Color.BLUE, l.getRadius(), l.getX(), l.getY()));
+        }
     }
 
-    public void updateAndRender(Lamp lamp) {
+    public void updateAndRender(Lamp lamp, ItemSpawnLogic itemSpawnLogic) {
         flickerTick ++;
         if(flickerTick == flickerReset) {
             flickerTick = 0;
@@ -65,5 +70,9 @@ public class LightLogic {
         rayHandler.updateAndRender();
         for(Light light : playerLights)
         light.setDistance(lamp.getRadius());
+        for(int i = 0; i < itemLights.size; i++) {
+            itemLights.get(i).setPosition(itemSpawnLogic.getLights().get(i).getX(), itemSpawnLogic.getLights().get(i).getY());
+            itemLights.get(i).setActive(itemSpawnLogic.getLights().get(i).isActive());
+        }
     }
 }

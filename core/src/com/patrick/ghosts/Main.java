@@ -62,7 +62,7 @@ public class Main extends ApplicationAdapter {
             map = new TmxMapLoader().load(Maps.GET_MAP());
             mapLogic = new TileMapLogic(map, collisionLogic.buildShapes(map), collisionLogic.buildExit(map));
             itemSpawnLogic.spawnOil(8 * Maps.CURRENT_MAP, 80, 500, mapLogic);
-            lightLogic.renderLights(cameraLogic.getCamera(), playerLogic.getPlayerLamp());
+            lightLogic.renderLights(cameraLogic.getCamera(), playerLogic.getPlayerLamp(), itemSpawnLogic);
             cameraLogic.move(collisionLogic.getStartPoint(map));
             mapLogic.setView(cameraLogic.getCamera(), collisionLogic.getStartPoint(map));
             cameraLogic.update();
@@ -95,13 +95,13 @@ public class Main extends ApplicationAdapter {
         bannerLogic.draw(spriteBatch);
         spriteBatch.end();
         if (!State.PAUSED()) {
-            move(inputLogic.move(Gdx.graphics.getDeltaTime() * Settings.PLAYER_SPEED));
+            move(inputLogic.move(.015f * Settings.PLAYER_SPEED));
             cameraLogic.update();
             playerLogic.update();
         }
         bannerLogic.update(inputLogic.skipBanner());
         checkItemCollisions();
-        lightLogic.updateAndRender(playerLogic.getPlayerLamp());
+        lightLogic.updateAndRender(playerLogic.getPlayerLamp(), itemSpawnLogic);
         if (collisionLogic.checkExitCollision(mapLogic.getExitRectangle(), playerLogic.getCollisionRectangle())) {
             needLoad = true;
             changeMap();
