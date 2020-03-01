@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.patrick.ghosts.entities.Banner;
 import com.patrick.ghosts.entities.Oil;
 import com.patrick.ghosts.logic.*;
 import com.patrick.ghosts.util.Banners;
@@ -28,6 +27,7 @@ public class Main extends ApplicationAdapter {
     PlayerLogic playerLogic;
     ItemSpawnLogic itemSpawnLogic;
     BannerLogic bannerLogic;
+    MusicLogic musicLogic;
 
     SpriteBatch spriteBatch;
     ShapeRenderer shapeRenderer;
@@ -51,6 +51,8 @@ public class Main extends ApplicationAdapter {
         shapeRenderer.setAutoShapeType(true);
         itemSpawnLogic = new ItemSpawnLogic();
         bannerLogic = new BannerLogic();
+        musicLogic = new MusicLogic();
+        musicLogic.play();
         changeMap();
         //cameraLogic.moveToAdjustPlayerPosition(new Vector2(cameraLogic.getCamera().position.x + 3, cameraLogic.getCamera().position.y -3));
         Gdx.input.setInputProcessor(inputLogic);

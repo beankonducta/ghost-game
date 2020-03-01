@@ -13,4 +13,6 @@ public class Settings {
     public static boolean COLLISION = true;
 
     public static float BANNER_FADE = 1f;
+
+    public static boolean PLAY_MUSIC = true;
 }
